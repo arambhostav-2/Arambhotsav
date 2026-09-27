@@ -19,8 +19,8 @@ export default function Scan() {
       const { data: s } = await sb.auth.getSession();
       if (!s.session) { setStatus('🔒 Admin login required.'); return; }
       const token = s.session.access_token;
-      // Encode the laptop host + path so phone can connect on same network
-      const phoneUrl = `http://${laptopHost}/admin/scan/phone?t=${token}`;
+      // Encode the phone URL so staff phones connect (production uses https)
+      const phoneUrl = `https://${laptopHost}/admin/scan/phone?t=${token}`;
       const url = await QRCode.toDataURL(phoneUrl, { width: 240, margin: 2, color: { dark: '#160409', light: '#ffffff' } });
       setScanQrDataUrl(url);
       setStatus('Scan the QR below with your phone');
@@ -50,8 +50,8 @@ export default function Scan() {
 
       <div className="mandala-border rounded-2xl p-5 bg-black/40 mt-6 text-center">
         <p className="text-xs text-gold tracking-widest">SCAN QR WITH YOUR PHONE</p>
-        <p className="text-sm text-orange-100/60 mt-1 break-all">{laptopHost && `http://${laptopHost}`}</p>
-        <p className="text-[11px] text-orange-100/50 mt-1">Same WiFi network required. Dev server runs on port 3000.</p>
+        <p className="text-sm text-orange-100/60 mt-1 break-all">{laptopHost && `https://${laptopHost}`}</p>
+        <p className="text-[11px] text-orange-100/50 mt-1">Phone needs internet (camera requires HTTPS). Keep this page open on the big screen.</p>
         {scanQrDataUrl ? (
           <img src={scanQrDataUrl} alt="Scan me" className="w-48 h-48 mx-auto mt-3 rounded-xl bg-white p-2" />
         ) : (

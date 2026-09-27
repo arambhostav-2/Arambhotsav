@@ -8,7 +8,7 @@ async function authed(req: NextRequest) {
 }
 
 async function sendConfirmEmail(b: any) {
-  if (!process.env.RESEND_API_KEY) return;
+  if (!process.env.BREVO_API_KEY) return;
   const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const link = `${base}/my-bookings?id=${encodeURIComponent(b.id)}&fresh=1`;
   const { sendEmail } = await import('@/lib/notify');
