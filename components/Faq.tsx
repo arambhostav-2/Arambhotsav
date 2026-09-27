@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const FAQS = [
   ['When & where is the event?', 'Oct 15, 2026, 6 PM – midnight at Zoroastrian Club Function Hall, SP Road, Secunderabad. Gates open 5 PM.'],
-  ['Do I need to bring dandiya sticks?', 'Free sticks are given at the venue with Single/Couple passes, and group passes get a keepsake kit. You may bring your own decorated sticks too.'],
+  ['Do I need to bring dandiya sticks?', 'You can purchase dandiya sticks at the event (stalls available). You may also bring your own decorated sticks.'],
   ['Is there an age limit / kids policy?', 'Kids under 5 enter free with parents. Family Garba circle is separated from the high-energy DJ circle for safety.'],
   ['How does QR entry work?', 'After payment you get a booking ID + QR e-ticket (downloadable PDF). Show it at the gate; staff scan it once to mark checked-in.'],
   ['Refunds & date change?', 'Full refund if the event day is cancelled. Date change allowed once up to 48 hrs before, subject to availability. UPI refunds settle in 3–5 days.'],
