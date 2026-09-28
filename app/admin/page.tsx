@@ -170,7 +170,15 @@ export default function Admin() {
                 <td className="p-3">{b.name}<br /><span className="text-orange-100/60">{b.phone}</span></td>
                 <td className="p-3 text-xs">{b.event_session}</td>
                 <td className="p-3">{b.qty}{b.rice_packets > 0 && <span className="block text-xs text-gold">🧺 +{b.rice_packets} rice</span>}</td><td className="p-3">₹{b.amount}</td>
-                <td className="p-3">{b.payment_status}</td>
+                <td className="p-3">{b.payment_status === 'pending' && !b.upi_txn_ref ? (
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-300">NOT PAID</span>
+                ) : b.payment_status === 'pending' ? (
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300">AWAITING VERIFICATION</span>
+                ) : b.payment_status === 'paid' ? (
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300">PAID</span>
+                ) : (
+                  b.payment_status
+                )}</td>
                 <td className="p-3">{b.checked_in ? '✓ IN' : b.payment_status === 'pending' ? <>
                   {b.upi_txn_ref && <p className="text-[10px] font-mono text-orange-100/60 mb-1">REF: {b.upi_txn_ref}</p>}
                   <button onClick={() => confirmPayment(b.id)} className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-300/40 font-bold hover:bg-emerald-500/30">✓ Confirm (UPI)</button>
