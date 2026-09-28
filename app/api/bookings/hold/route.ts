@@ -75,8 +75,6 @@ export async function POST(req: NextRequest) {
     checked_in: false,
     created_at: new Date().toISOString(),
     rice_packets: riceExtra,
-    upi_id: upiId,
-    upi_name: upiName,
   };
   await createBookingRow(booking);
 

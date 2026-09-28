@@ -140,13 +140,19 @@ export async function releaseTickets(ticketTypeId: string, qty: number) {
 export async function createBookingRow(b: Booking) {
   const sb = adminClient();
   if (sb) {
-    const { error } = await sb.from('bookings').insert(b);
+    // Only send columns that exist in the bookings table — extra fields
+    // (e.g. upi_id/upi_name) make Supabase reject the whole insert.
+    const { upi_id: _upiId, upi_name: _upiName, ...row } = b as Booking & { upi_id?: unknown; upi_name?: unknown };
+    const { error } = await sb.from('bookings').insert(row);
+    if (!error) return;
     // Fallback: DB may not have the rice_packets column yet
-    if (error && /rice_packets/.test(error.message)) {
-      const { rice_packets: _omit, ...rest } = b;
-      await sb.from('bookings').insert(rest);
+    if (/rice_packets/.test(error.message)) {
+      const { rice_packets: _omit, ...rest } = row;
+      const { error: e2 } = await sb.from('bookings').insert(rest);
+      if (!e2) return;
+      throw new Error(`Booking save failed: ${e2.message}`);
     }
-    return;
+    throw new Error(`Booking save failed: ${error.message}`);
   }
   mem.__bookings!.unshift(b);
 }
