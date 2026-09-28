@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBooking, markBooking, updateTicketType, listBookings } from '@/lib/store';
+import { getBooking, markBooking, updateTicketType, listBookings, holdTickets } from '@/lib/store';
 import { verifyToken } from '@/lib/supabase-server';
 
 async function authed(req: NextRequest) {
@@ -73,6 +73,8 @@ export async function POST(req: NextRequest) {
     if (enteredRef !== storedRef) {
       return NextResponse.json({ error: `Mismatch: you entered ${enteredRef}, the customer recorded ${storedRef}. Only a matching UTR confirms the payment.` }, { status: 400 });
     }
+    const held = await holdTickets(b.ticket_type_id, b.qty);
+    if (!held) return NextResponse.json({ error: 'Not enough seats left — cannot confirm.' }, { status: 409 });
     await markBooking(id, { payment_status: 'paid', upi_txn_ref: enteredRef });
     try {
       await sendConfirmEmail(b);

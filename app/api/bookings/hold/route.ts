@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import QRCode from 'qrcode';
-import { SESSIONS, bookingId, createBookingRow, fees, getTicketTypes, holdTickets, releaseTickets, INCLUDED_RICE, RICE_PACKET_PRICE } from '@/lib/store';
+import { SESSIONS, bookingId, createBookingRow, fees, getTicketTypes, INCLUDED_RICE, RICE_PACKET_PRICE } from '@/lib/store';
 import { verifyToken } from '@/lib/supabase-server';
 import { notifyAdminUpiPending, sendPaymentInstructions } from '@/lib/notify';
 
@@ -50,13 +50,9 @@ export async function POST(req: NextRequest) {
   const grand = ticketGrand + riceAmount;
   const riceTotal = includedRice * q + riceExtra;
 
-  const held = await holdTickets(tt.id, q);
-  if (!held) return NextResponse.json({ error: 'Not enough seats left — try fewer tickets.' }, { status: 409 });
-
   const upiId = process.env.NEXT_PUBLIC_UPI_ID;
   const upiName = process.env.NEXT_PUBLIC_UPI_NAME || 'Garba Nights';
   if (method === 'upi' && !upiId) {
-    await releaseTickets(tt.id, q);
     return NextResponse.json({ error: 'UPI payments are not configured yet. Please contact the organisers or use Card.' }, { status: 400 });
   }
 

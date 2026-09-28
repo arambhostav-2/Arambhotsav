@@ -157,13 +157,6 @@ export async function getBooking(id: string): Promise<Booking | undefined> {
     const { data } = await sb.from('bookings').select('*').eq('id', id).single();
     if (data) {
       const b = data as Booking;
-      // Lazy expiration: if hold/pending for > 8 min, mark failed + release tickets
-      const created = new Date(b.created_at).getTime();
-      if ((b.payment_status === 'held' || b.payment_status === 'pending') && Date.now() - created > 8 * 60 * 1000) {
-        await sb.from('bookings').update({ payment_status: 'failed' }).eq('id', id);
-        await releaseTickets(b.ticket_type_id, b.qty);
-        b.payment_status = 'failed';
-      }
       return b;
     }
   }
