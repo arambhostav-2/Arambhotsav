@@ -180,6 +180,7 @@ export default function Admin() {
                   b.payment_status
                 )}</td>
                 <td className="p-3">{b.checked_in ? '✓ IN' : b.payment_status === 'pending' ? <>
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-300 mb-1">NOT CONFIRMED</span>
                   {b.upi_txn_ref && <p className="text-[10px] font-mono text-orange-100/60 mb-1">REF: {b.upi_txn_ref}</p>}
                   <button onClick={() => confirmPayment(b.id)} className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-300/40 font-bold hover:bg-emerald-500/30">✓ Confirm (UPI)</button>
                 </> : <button onClick={() => checkin(b.id)} className="px-3 py-1 rounded-full bg-gold text-maroon font-bold">Check in</button>}</td>
