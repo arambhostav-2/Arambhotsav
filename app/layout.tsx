@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Navratri Garba Nights 2026 — Book Dandiya Tickets',
   description:
-    'One spectacular night of Garba, Dandiya, live music and food stalls. Book Early Bird, Single, Couple & Group passes with live seat availability, UPI payments & QR e-tickets.',
+    'One spectacular night of Garba, Dandiya, live music and food stalls. Book Single, Couple & Group passes with live seat availability, UPI payments & QR e-tickets.',
   openGraph: {
     title: 'Navratri Garba Nights 2026',
     description: 'Book Garba/Dandiya tickets — live availability, UPI payments, QR entry.',

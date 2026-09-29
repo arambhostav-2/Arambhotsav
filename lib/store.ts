@@ -3,7 +3,7 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 // ---------- Types ----------
 export type TicketType = {
   id: string;
-  code: 'EARLY_BIRD' | 'SINGLE' | 'COUPLE' | 'GROUP3' | 'GROUP5' | 'GROUP9' | 'GROUP3_NR' | 'GROUP5_NR' | 'GROUP9_NR';
+  code: 'SINGLE' | 'COUPLE' | 'GROUP3' | 'GROUP5' | 'GROUP9' | 'GROUP3_NR' | 'GROUP5_NR' | 'GROUP9_NR';
   name: string;
   price: number;
   total_quantity: number;
@@ -48,7 +48,6 @@ export const RICE_PACKET_PRICE = 149;
 export const INCLUDED_RICE: Record<string, number> = { GROUP3: 1, GROUP5: 2, GROUP9: 3 };
 
 const DEFAULT_TICKETS: TicketType[] = [
-  { id: 't-earlybird', code: 'EARLY_BIRD', name: 'Single Early Bird', price: 299, total_quantity: 250, remaining_quantity: 250, sales_open: true, perks: ['1 Garba night entry', 'Access to food stalls', 'Early-bird pricing — limited'] },
   { id: 't-single', code: 'SINGLE', name: 'Single', price: 399, total_quantity: 250, remaining_quantity: 250, sales_open: true, perks: ['1 Garba night entry', 'Access to food stalls'] },
   { id: 't-couple', code: 'COUPLE', name: 'Couple', price: 749, total_quantity: 200, remaining_quantity: 200, sales_open: true, perks: ['2 entries, same night', 'Priority entry lane', '1 free chaas each'] },
   { id: 't-group3', code: 'GROUP3', name: 'Group of 3', price: 1299, total_quantity: 60, remaining_quantity: 60, sales_open: true, perks: ['3 entries, same night', 'Dedicated group Garba circle', '1 veg rice (for 1 person)'] },
@@ -91,11 +90,13 @@ export function publicClient() {
 
 export async function getTicketTypes(): Promise<TicketType[]> {
   const sb = adminClient();
+  // EARLY_BIRD retired — filtered out so any leftover DB row can never resurface.
+  const live = (list: TicketType[]) => list.filter((t) => (t.code as string) !== 'EARLY_BIRD');
   if (sb) {
     const { data, error } = await sb.from('ticket_types').select('*').order('price');
-    if (!error && data && data.length) return data as TicketType[];
+    if (!error && data && data.length) return live(data as TicketType[]);
   }
-  return mem.__tickets!;
+  return live(mem.__tickets!);
 }
 
 export async function updateTicketType(id: string, patch: Partial<TicketType>) {

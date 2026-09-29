@@ -14,9 +14,8 @@ create table if not exists bookings (
  -- Remove old ticket types: Group Pass (5 Entries), VIP, Season Pass (9 Nights)
  delete from bookings where ticket_type_id in ('t-group','t-vip','t-season','t-season-pass');
  delete from ticket_types where code in ('GROUP','VIP','SEASON');
- -- Upsert ticket types (prices updated): Early Bird, Single, Couple, Group of 3/5/9 + Rice
+ -- Upsert ticket types (prices updated): Single, Couple, Group of 3/5/9 + Rice
  insert into ticket_types (id, code, name, price, total_quantity, remaining_quantity, sales_open, perks) values
-  ('t-earlybird','EARLY_BIRD','Single Early Bird',299,250,250,true,'["1 Garba night entry","Access to food stalls","Early-bird pricing — limited"]'),
   ('t-single','SINGLE','Single',399,250,250,true,'["1 Garba night entry","Access to food stalls"]'),
   ('t-couple','COUPLE','Couple',749,200,200,true,'["2 entries, same night","Priority entry lane","1 free chaas each"]'),
   ('t-group3','GROUP3','Group of 3',1299,60,60,true,'["3 entries, same night","Dedicated group Garba circle","1 veg rice (for 1 person)"]'),
