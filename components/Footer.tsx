@@ -25,9 +25,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8">
         <div>
           <p className="font-display text-2xl gold-text">🪔 Garba Nights 2026</p>
+          <p className="mt-1 text-xs text-orange-100/60">Organised by Arambhotsav</p>
           <p className="mt-2 text-sm text-orange-100/70">Zoroastrian Club Function Hall,<br />1-8-183 to 185, SP Road, Secunderabad, Hyderabad 500003<br />Oct 15 • 6 PM onwards<br /><a href="tel:+918096322227" className="underline">80963 22227</a> • <a href="tel:+918317660854" className="underline">83176 60854</a> • arambhostav@gmail.com</p>
-          <div className="flex gap-3 mt-4 text-xl">
-            <a href="#" aria-label="Instagram">📸</a><a href="#" aria-label="YouTube">▶️</a><a href="#" aria-label="X">𝕏</a><a href="#" aria-label="WhatsApp">💬</a>
+          <div className="flex gap-4 mt-4 text-sm">
+            <a href="/privacy" className="underline text-orange-100/75">Privacy Policy</a>
+            <a href="/terms" className="underline text-orange-100/75">Terms</a>
+            <a href="/refunds" className="underline text-orange-100/75">Refunds</a>
           </div>
         </div>
         <div>
@@ -47,7 +50,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <p className="text-center text-xs text-orange-100/50 pb-6">© 2026 Garba Nights • Made with 💛 for Navratri • Replace /assets/durga-hero.jpg with your licensed image</p>
+      <p className="text-center text-xs text-orange-100/50 pb-6">© 2026 Garba Nights • Organised by Arambhotsav • Made with 💛 for Navratri</p>
     </footer>
   );
 }
