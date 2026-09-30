@@ -297,11 +297,12 @@ function BookingInner() {
               </div>
 
               <ol className="mt-4 text-left text-sm text-orange-100/75 space-y-1.5">
-                <li>1. Take a <b className="text-gold">screenshot</b> of the QR code above.</li>
-                <li>2. Open any UPI app (PhonePe, GPay, BHIM, Paytm) → <b className="text-gold">scan/upload the screenshot</b> → pay <b className="text-gold">₹{upiData.upiAmount}</b>.</li>
+                <li>1. Open any UPI app (PhonePe, GPay, BHIM, Paytm) and <b className="text-gold">scan the QR above live with your camera</b> → pay <b className="text-gold">₹{upiData.upiAmount}</b>.</li>
+                <li>2. Or pay directly to our UPI ID <b className="text-gold">{upiData.upiId}</b> ({upiData.upiName}) — same amount.</li>
                 <li>3. Paste the <b className="text-goldlight">transaction ID / UTR</b> shown in your payment app below.</li>
                 <li>4. Within <b className="text-gold">3 minutes</b> your ticket is confirmed. ✅</li>
               </ol>
+              <p className="text-[11px] text-amber-200/70 mt-2">⚠️ Don&apos;t pay via screenshot upload — UPI apps cap screenshot payments at ₹2,000.</p>
 
               <div className="mt-4 text-left">
                 <label className="text-xs font-semibold tracking-[0.18em] text-goldlight/80">UPI TRANSACTION ID / UTR *</label>
