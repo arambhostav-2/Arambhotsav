@@ -90,10 +90,10 @@ export async function sendPaymentInstructions(b: NotifyBooking) {
       <p><b>UPI ID:</b> <code>${upi}</code></p>
       <p><b>Payee name:</b> ${name}</p>
       <h3 style="color:#f5c451">How to pay</h3>
-      <p>1. Take a screenshot of the QR code on the payment screen.</p>
-      <p>2. Open any UPI app (PhonePe, GPay, BHIM, Paytm) → scan/upload the screenshot → pay <b>₹${b.amount}</b>.</p>
-      <p>3. Paste the transaction ID / UTR shown in your payment app.</p>
-      <p>4. Within 3 minutes your ticket is confirmed. ✅</p>
+      <p>1. Open any UPI app (PhonePe, GPay, BHIM, Paytm) and scan the QR on the payment screen <b>live with your camera</b> → pay <b>₹${b.amount}</b>. You can also pay directly to our UPI ID <code>${upi}</code> (${name}).</p>
+      <p>2. Paste the transaction ID / UTR shown in your payment app.</p>
+      <p>3. Within 3 minutes your ticket is confirmed. ✅</p>
+      <p style="color:#fbbf24">Please do not pay via screenshot upload — UPI apps cap screenshot payments at ₹2,000.</p>
       <p style="color:#888">Keep your booking ID safe. Hold releases automatically after 8 minutes if unpaid.</p>
     </div>`
   );
