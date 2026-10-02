@@ -25,8 +25,8 @@ const SECTIONS: Array<[string, string[]]> = [
   ]],
   ['4. Payments', [
     'Ticket prices and the per-ticket convenience fee are shown before you pay. The amount you approve is the final amount.',
-    'Online payments are processed securely by our payment partner (PhonePe). UPI QR payments are verified manually by our team against the transaction ID / UTR you submit.',
-    'A booking is confirmed only after payment succeeds (online) or is verified by our team (UPI). Unpaid bookings are not valid for entry.',
+    'Payments are currently collected via manual UPI transfer and verified by our team against the transaction ID / UTR you submit. If online gateway payments are enabled, they will be processed securely by our payment partner.',
+    'A booking is confirmed only after your payment is verified by our team. Unpaid bookings are not valid for entry.',
   ]],
   ['5. Changes to the event', [
     'If the event is rescheduled, your ticket remains valid for the new date. If it is cancelled by the organisers, you receive a full refund as per our Refund Policy.',

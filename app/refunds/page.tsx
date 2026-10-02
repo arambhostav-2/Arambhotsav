@@ -10,8 +10,8 @@ export const metadata = {
 const SECTIONS: Array<[string, string[]]> = [
   ['1. Event cancelled by the organisers', [
     'If Garba Nights 2026 is cancelled, every booking receives a 100% refund including the convenience fee.',
-    'Online payments are refunded to the original payment source within 5–7 working days.',
-    'Manual UPI payments are refunded to your UPI ID / bank account within 3–5 working days after you share your booking ID and UPI details with us.',
+    'UPI payments are refunded to your UPI ID / bank account within 3–5 working days after you share your booking ID and UPI details with us.',
+    'If online gateway payments are enabled in future, they will be refunded to the original payment source within 5–7 working days.',
   ]],
   ['2. Event rescheduled', [
     'Your ticket stays valid for the new date automatically — nothing to do.',
@@ -22,7 +22,7 @@ const SECTIONS: Array<[string, string[]]> = [
     'One date/session change per booking is allowed up to 48 hours before the event, subject to seat availability — contact us with your booking ID.',
   ]],
   ['4. Failed or duplicate payments', [
-    'If money left your account but no confirmed ticket was issued, it is refunded in full once verified (5–7 working days for online payments, 3–5 for UPI).',
+    'If money left your account but no confirmed ticket was issued, it is refunded in full once verified (3–5 working days for UPI; 5–7 working days if online gateway payments are enabled).',
     'Duplicate payments for the same booking are refunded in full on request.',
   ]],
   ['5. Convenience fee', [

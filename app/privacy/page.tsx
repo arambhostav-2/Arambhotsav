@@ -15,7 +15,7 @@ const SECTIONS: Array<[string, string[]]> = [
   ['2. Data we collect', [
     'Account details: your name and email address when you sign up or log in.',
     'Booking details: name, 10-digit mobile number, email, ticket type, quantity and event session.',
-    'Payment references: UPI transaction ID / UTR you submit, or the online transaction reference returned by our payment partner (PhonePe) — we never see or store your UPI PIN, card numbers or bank passwords.',
+    'Payment references: the UPI transaction ID / UTR you submit after paying (we currently collect payments via manual UPI transfer). If online payments are enabled in future, we will additionally receive the transaction reference returned by our payment partner — we never see or store your UPI PIN, card numbers or bank passwords.',
     'Technical data: login session and basic device/browser information needed to keep you signed in and prevent fraud.',
   ]],
   ['3. How we use your data', [
@@ -25,7 +25,7 @@ const SECTIONS: Array<[string, string[]]> = [
     'To send important event updates (timing, venue or gate changes). We do not send marketing spam.',
   ]],
   ['4. Who we share it with', [
-    'Payment processing: PhonePe (for online payments) receives the amount and order details needed to process your payment.',
+    'Payment processing: we currently collect payments via manual UPI transfer to our UPI ID, verified against the transaction ID / UTR you submit. If online gateway payments are enabled in future, our payment partner will receive the amount and order details needed to process your payment.',
     'Email delivery: our email service provider, to send confirmations and tickets.',
     'We do not sell, rent or share your personal data with any third party for their own marketing.',
   ]],
