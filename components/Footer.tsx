@@ -28,6 +28,7 @@ export default function Footer() {
           <p className="mt-1 text-xs text-orange-100/60">Organised by Arambhotsav</p>
           <p className="mt-2 text-sm text-orange-100/70">Zoroastrian Club Function Hall,<br />1-8-183 to 185, SP Road, Secunderabad, Hyderabad 500003<br />Oct 15 • 6 PM onwards<br /><a href="tel:+918096322227" className="underline">80963 22227</a> • <a href="tel:+918317660854" className="underline">83176 60854</a> • arambhostav@gmail.com</p>
           <div className="flex gap-4 mt-4 text-sm">
+            <a href="/about" className="underline text-orange-100/75">About Us</a>
             <a href="/privacy" className="underline text-orange-100/75">Privacy Policy</a>
             <a href="/terms" className="underline text-orange-100/75">Terms</a>
             <a href="/refunds" className="underline text-orange-100/75">Refunds</a>
