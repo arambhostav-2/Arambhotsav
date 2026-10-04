@@ -176,6 +176,8 @@ export default function Admin() {
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300">AWAITING VERIFICATION</span>
                 ) : b.payment_status === 'paid' ? (
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300">PAID</span>
+                ) : b.payment_status === 'held' ? (
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300">AWAITING PAYMENT</span>
                 ) : (
                   b.payment_status
                 )}</td>
@@ -187,7 +189,13 @@ export default function Admin() {
                   </> : (
                     <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-orange-100/50">Not Confirm</span>
                   )}
-                </> : <button onClick={() => checkin(b.id)} className="px-3 py-1 rounded-full bg-gold text-maroon font-bold">Check in</button>}</td>
+                </> : b.payment_status === 'paid' ? (
+                  <button onClick={() => checkin(b.id)} className="px-3 py-1 rounded-full bg-gold text-maroon font-bold">Check in</button>
+                ) : b.payment_status === 'held' ? (
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300">AWAITING PAYMENT</span>
+                ) : (
+                  <span className="text-orange-100/40 text-xs">—</span>
+                )}</td>
               </tr>
             ))}
           </tbody>
