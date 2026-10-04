@@ -97,7 +97,7 @@ export default function Home() {
           </motion.div>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mt-8 flex gap-4 justify-center flex-wrap">
             <Link href="/booking" className="btn-festive animate-pulse-glow">🎟️ Book Tickets</Link>
-            <a href="#about" className="rounded-full px-8 py-4 border border-gold/60 text-goldlight font-display hover:bg-gold/10">Explore Event</a>
+            <Link href="/my-bookings" className="rounded-full px-8 py-4 border border-gold/60 text-goldlight font-display hover:bg-gold/10">🎫 My Bookings</Link>
           </motion.div>
         </div>
       </section>
