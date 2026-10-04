@@ -35,7 +35,7 @@ function BookingInner() {
   const [code, setCode] = useState(sp.get('type') || 'SINGLE');
   const [qty, setQty] = useState(1);
   const [form, setForm] = useState({ name: '', phone: '', email: '' });
-  const [method, setMethod] = useState<'upi' | 'gateway'>('upi');
+  const method = 'gateway';
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState<HoldResp | null>(null);
   const [err, setErr] = useState('');
@@ -232,21 +232,13 @@ function BookingInner() {
           </div>
           <div className="mandala-border rounded-3xl p-5 bg-black/30">
             <p className="font-display text-xl text-gold">4 • Payment method</p>
-            <div className="grid sm:grid-cols-2 gap-3 mt-3">
-              <button type="button" onClick={() => setMethod('gateway')}
-                className={`rounded-2xl border p-4 text-left transition ${method === 'gateway' ? 'border-gold bg-gold/10 scale-[1.02]' : 'border-white/15 hover:border-gold/50'}`}>
+            <div className="grid gap-3 mt-3">
+              <div className="rounded-2xl border p-4 text-left border-gold bg-gold/10">
                 <p className="font-display text-lg">Pay Online <span className="ml-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5">AUTO-CONFIRM</span></p>
                 <p className="text-sm text-orange-100/70">UPI, cards & netbanking — ticket confirmed instantly, no UTR needed.</p>
-              </button>
-              <button type="button" onClick={() => setMethod('upi')}
-                className={`rounded-2xl border p-4 text-left transition ${method === 'upi' ? 'border-gold bg-gold/10 scale-[1.02]' : 'border-white/15 hover:border-gold/50'}`}>
-                <p className="font-display text-lg">UPI QR <span className="ml-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5">0% FEE</span></p>
-                <p className="text-sm text-orange-100/70">Pay from any UPI app, submit your UTR, and our team confirms your ticket.</p>
-              </button>
+              </div>
             </div>
-            <p className="text-xs text-orange-100/60 mt-3">💡 {method === 'gateway'
-              ? 'You will be redirected to secure checkout — your e-ticket is confirmed automatically once payment succeeds.'
-              : 'Pay to our UPI ID on the next screen, then enter your transaction ID (UTR) under My Bookings — your e-ticket is emailed once we verify the credit.'}</p>
+            <p className="text-xs text-orange-100/60 mt-3">💡 You will be redirected to secure checkout — your e-ticket is confirmed automatically once payment succeeds.</p>
           </div>
           {err && <p className="rounded-xl bg-red-900/60 border border-red-400/40 p-3 text-sm">⚠️ {err}</p>}
         </div>
@@ -262,10 +254,10 @@ function BookingInner() {
             <div className="flex justify-between font-display text-2xl gold-text border-t border-gold/30 pt-3"><dt>Total</dt><dd>₹{grand}</dd></div>
           </dl>
           <button disabled={loading || !sel} className="btn-festive w-full mt-5 animate-pulse-glow disabled:opacity-50">
-            {loading ? 'Holding seats…' : method === 'upi' ? `Get UPI QR • ₹${grand}` : `Pay ₹${grand} →`}
+            {loading ? 'Holding seats…' : `Pay ₹${grand} →`}
           </button>
           <p className="text-xs text-orange-100/60 mt-3">
-            0% fee. Your booking shows as pending until our team verifies your payment — usually within a few minutes.
+            Secure checkout. Your ticket is confirmed automatically once payment succeeds.
           </p>
         </aside>
       </form>
