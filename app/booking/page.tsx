@@ -233,13 +233,20 @@ function BookingInner() {
           <div className="mandala-border rounded-3xl p-5 bg-black/30">
             <p className="font-display text-xl text-gold">4 • Payment method</p>
             <div className="grid sm:grid-cols-2 gap-3 mt-3">
+              <button type="button" onClick={() => setMethod('gateway')}
+                className={`rounded-2xl border p-4 text-left transition ${method === 'gateway' ? 'border-gold bg-gold/10 scale-[1.02]' : 'border-white/15 hover:border-gold/50'}`}>
+                <p className="font-display text-lg">Pay Online <span className="ml-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5">AUTO-CONFIRM</span></p>
+                <p className="text-sm text-orange-100/70">UPI, cards & netbanking — ticket confirmed instantly, no UTR needed.</p>
+              </button>
               <button type="button" onClick={() => setMethod('upi')}
-                className="rounded-2xl border p-4 text-left transition border-gold bg-gold/10">
+                className={`rounded-2xl border p-4 text-left transition ${method === 'upi' ? 'border-gold bg-gold/10 scale-[1.02]' : 'border-white/15 hover:border-gold/50'}`}>
                 <p className="font-display text-lg">UPI QR <span className="ml-1 text-xs rounded-full bg-emerald-500/20 text-emerald-300 px-2 py-0.5">0% FEE</span></p>
                 <p className="text-sm text-orange-100/70">Pay from any UPI app, submit your UTR, and our team confirms your ticket.</p>
               </button>
             </div>
-            <p className="text-xs text-orange-100/60 mt-3">💡 Pay to our UPI ID on the next screen, then enter your transaction ID (UTR) under My Bookings — your e-ticket is emailed once we verify the credit.</p>
+            <p className="text-xs text-orange-100/60 mt-3">💡 {method === 'gateway'
+              ? 'You will be redirected to secure checkout — your e-ticket is confirmed automatically once payment succeeds.'
+              : 'Pay to our UPI ID on the next screen, then enter your transaction ID (UTR) under My Bookings — your e-ticket is emailed once we verify the credit.'}</p>
           </div>
           {err && <p className="rounded-xl bg-red-900/60 border border-red-400/40 p-3 text-sm">⚠️ {err}</p>}
         </div>

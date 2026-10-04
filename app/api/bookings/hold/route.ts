@@ -91,7 +91,12 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Create Razorpay order (test mode) if keys present, else demo-pay
+  // Online (Razorpay) payments require gateway keys — never confirm without real payment.
+  if (method === 'gateway' && !(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET)) {
+    return NextResponse.json({ error: 'Online payments are not configured yet. Please use UPI QR.' }, { status: 400 });
+  }
+
+  // Create Razorpay order
   let order = null;
   if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
     const Razorpay = (await import('razorpay')).default;

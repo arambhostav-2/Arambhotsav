@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { getSupabaseBrowser } from '@/lib/supabase-browser';
 
+declare global { interface Window { Razorpay?: any } }
+
 type Booking = {
   id: string; ticket_type_id?: string; event_session: string; qty: number; amount: number;
   name: string; phone: string; email: string; payment_status: string;
@@ -61,6 +63,32 @@ function BookingsContent() {
       if (!rr.ok) throw new Error(d.error || 'Could not save reference');
       await load();
     } catch (e: any) { setUtrErrs({ ...utrErrs, [bookingId]: e.message }); }
+    finally { setSaving({ ...saving, [bookingId]: false }); }
+  }
+
+  async function retryOnline(bookingId: string) {
+    setSaving({ ...saving, [bookingId]: true });
+    try {
+      const rr = await authedFetch('/api/payments/razorpay/order', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId }) });
+      const d = await rr.json();
+      if (!rr.ok) throw new Error(d.error || 'Could not start online payment');
+      if (d.already) { await load(); return; }
+      if (!d.keyId || !d.order) throw new Error('Online payments are not configured yet.');
+      const rz = new window.Razorpay({
+        key: d.keyId, amount: d.order.amount, currency: 'INR',
+        name: 'Garba Nights 2026', description: `Booking ${bookingId}`,
+        order_id: d.order.id,
+        handler: async (resp: any) => {
+          await authedFetch('/api/payments/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookingId, ...resp }) });
+          await load();
+        },
+        theme: { color: '#8b0000' },
+      });
+      rz.on('payment.failed', () => setUtrErrs({ ...utrErrs, [bookingId]: 'Payment failed — you can retry.' }));
+      rz.open();
+    } catch (e: unknown) { setUtrErrs({ ...utrErrs, [bookingId]: e instanceof Error ? e.message : 'Could not start online payment' }); }
     finally { setSaving({ ...saving, [bookingId]: false }); }
   }
 
@@ -198,7 +226,15 @@ function BookingsContent() {
 
               {(b.payment_status === 'failed' || b.payment_status === 'held') && (
                 <div className="mt-4">
-                  <Link href="/booking" className="btn-festive !py-2.5 !text-sm inline-block">Book again &#8594;</Link>
+                  <div className="flex gap-3 flex-wrap">
+                    {b.payment_status === 'held' && (
+                      <button onClick={() => retryOnline(b.id)} disabled={saving[b.id]} className="btn-festive !py-2.5 !text-sm disabled:opacity-50">
+                        {saving[b.id] ? 'Starting…' : 'Pay online →'}
+                      </button>
+                    )}
+                    <Link href="/booking" className="rounded-full px-5 py-2.5 border border-gold/60 text-sm">Book again →</Link>
+                  </div>
+                  {utrErrs[b.id] && <p className="text-xs text-red-300 mt-1">&#9888; {utrErrs[b.id]}</p>}
                 </div>
               )}
             </div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { listBookings, markBooking } from '@/lib/store';
+import { listBookings } from '@/lib/store';
+import { confirmOnlineBooking } from '@/lib/online-pay';
 
 // Razorpay webhook — source of truth. Configure URL in Razorpay dashboard:
 // https://<your-domain>/api/payments/webhook  (events: payment.captured)
@@ -13,12 +14,20 @@ export async function POST(req: NextRequest) {
   }
   try {
     const evt = JSON.parse(raw);
-    const orderId = evt?.payload?.payment?.entity?.order_id;
+    const payment = evt?.payload?.payment?.entity;
+    const orderId = payment?.order_id;
     if (orderId && evt.event?.includes('captured')) {
       const all = await listBookings();
       const b = all.find((x) => x.razorpay_order_id === orderId);
-      if (b && b.payment_status !== 'paid') await markBooking(b.id, { payment_status: 'paid' });
+      if (b && b.payment_status !== 'paid') {
+        await confirmOnlineBooking(b.id, {
+          txnRef: payment?.id ? String(payment.id) : undefined,
+          via: 'online',
+        });
+      }
     }
-  } catch {}
+  } catch (e) {
+    console.error('[razorpay-webhook]', e);
+  }
   return NextResponse.json({ ok: true });
 }

@@ -1,19 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { getBooking, markBooking } from '@/lib/store';
+import { getBooking } from '@/lib/store';
+import { confirmOnlineBooking } from '@/lib/online-pay';
 
-async function sendEmail(to: string, subject: string, html: string) {
-  if (!process.env.RESEND_API_KEY) return;
-  const { Resend } = await import('resend');
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  await resend.emails.send({ from: process.env.RESEND_FROM || 'Garba Nights <tickets@example.com>', to, subject, html });
-}
-
-// Client calls this after Razorpay success (demo-pay calls it directly).
-// Webhook below is the source of truth; this marks paid only with valid signature OR demo mode.
+// Client calls this after Razorpay checkout success.
+// Webhook below is the backup source of truth; both funnel into confirmOnlineBooking.
 export async function POST(req: NextRequest) {
   const { bookingId, razorpay_payment_id, razorpay_order_id, razorpay_signature } = await req.json();
-  const b = await getBooking(bookingId);
+  const b = await getBooking(String(bookingId || ''));
   if (!b) return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
   if (b.payment_status === 'paid') return NextResponse.json({ ok: true, already: true });
 
@@ -22,10 +16,17 @@ export async function POST(req: NextRequest) {
       .update(`${razorpay_order_id}|${razorpay_payment_id}`).digest('hex');
     if (expected !== razorpay_signature) return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 });
   }
-  await markBooking(bookingId, { payment_status: 'paid' });
+  // Bind payment to booking: the order id must match the one we created for it.
+  if (b.razorpay_order_id && razorpay_order_id && b.razorpay_order_id !== razorpay_order_id) {
+    return NextResponse.json({ error: 'Payment does not match this booking.' }, { status: 400 });
+  }
   try {
-    await sendEmail(b.email, `🎟️ Garba Nights confirmed — ${bookingId}`,
-      `<h2>Shubh Navratri, ${b.name}!</h2><p>Booking <b>${bookingId}</b> • ${b.event_session} • Qty ${b.qty} • ₹${b.amount} — <b>PAID</b></p><p>Show the QR on <a href="${process.env.NEXT_PUBLIC_APP_URL}/my-bookings?id=${bookingId}">My Bookings</a> at the gate.</p><img src="${b.qr_code}" width="220"/>`);
-  } catch {}
-  return NextResponse.json({ ok: true });
+    const r = await confirmOnlineBooking(b.id, {
+      txnRef: razorpay_payment_id ? String(razorpay_payment_id) : undefined,
+      via: 'online',
+    });
+    return NextResponse.json({ ok: true, already: r.already });
+  } catch (e: unknown) {
+    return NextResponse.json({ error: e instanceof Error ? e.message : 'Could not confirm payment' }, { status: 409 });
+  }
 }
