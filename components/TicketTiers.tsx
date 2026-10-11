@@ -23,15 +23,8 @@ export default function TicketTiers() {
     const id = setInterval(load, 15000);
     return () => clearInterval(id);
   }, []);
-  const totalRemaining = tiers.reduce((s, t) => s + t.remaining_quantity, 0);
-  const totalAll = 1000;
   return (
     <>
-      {tiers.length > 0 && (
-        <p className={`text-center text-sm font-semibold mb-4 ${totalRemaining < 100 ? 'text-red-300' : 'text-emerald-300'}`}>
-          {totalAll} seats total • {totalRemaining} left overall
-        </p>
-      )}
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {tiers.map((t, i) => (
         <motion.div
