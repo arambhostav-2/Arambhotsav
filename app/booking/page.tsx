@@ -182,9 +182,6 @@ function BookingInner() {
           </div>
           <div className="mandala-border rounded-3xl p-5 bg-black/30">
             <p className="font-display text-xl text-gold">2 • Ticket type <span className="text-xs text-emerald-300 ml-2">● LIVE</span></p>
-            {tickets.length > 0 && (
-              <p className="text-sm font-semibold text-emerald-300 mt-2">1000 seats total • {tickets.reduce((s, t) => s + t.remaining_quantity, 0)} left overall</p>
-            )}
             <div className="grid sm:grid-cols-2 gap-3 mt-3">
               {tickets.map((t) => (
                 <button type="button" key={t.id} disabled={!t.sales_open || t.remaining_quantity === 0}
