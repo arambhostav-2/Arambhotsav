@@ -167,8 +167,8 @@ function BookingInner() {
           <h2 className="font-display text-2xl gold-text mt-3">Login required to book</h2>
           <p className="text-orange-100/75 mt-2">Please login or create a free account to book tickets — your e-tickets will be linked to your account and shown under My Bookings.</p>
           <div className="flex gap-3 justify-center mt-6 flex-wrap">
-            <Link href="/login?redirect=%2Fbooking" className="btn-festive !py-3 !px-8">Login →</Link>
-            <Link href="/signup?redirect=%2Fbooking" className="rounded-full px-7 py-3 border border-gold/60 text-goldlight font-display hover:bg-gold/10 transition">Sign Up</Link>
+            <Link href="/login?redirect=%2Fbooking" className="rounded-full px-7 py-3 border border-gold/60 text-goldlight font-display hover:bg-gold/10 transition">Login →</Link>
+            <Link href="/signup?redirect=%2Fbooking" className="btn-festive !py-3 !px-8">Sign Up</Link>
           </div>
         </div>
       ) : (
